@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -21,15 +21,26 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: pip install requests
+      - name: Install Python packages
+        run: pip install playwright
 
-      - name: Check stock
+      - name: Install Chromium
+        run: playwright install --with-deps chromium
+
+      - name: Check Terminal X stock
         env:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: python check_stock.py
+
+      - name: Upload screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terminalx-screenshot
+          path: terminalx.png
+          if-no-files-found: ignore
 
       - name: Save state
         run: |
