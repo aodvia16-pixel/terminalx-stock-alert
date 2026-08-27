@@ -46,6 +46,7 @@ jobs:
         run: |
           git config user.name "stock-bot"
           git config user.email "stock-bot@users.noreply.github.com"
+          git pull
           git add state.txt
           git diff --cached --quiet || git commit -m "Update stock state"
           git push
