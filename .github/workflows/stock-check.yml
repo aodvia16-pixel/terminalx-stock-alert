@@ -39,10 +39,12 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: python check_stock.py
 
-      - name: Upload screenshot
+           - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: terminalx-screenshot
-          path: terminalx.png
+          name: terminalx-screenshots
+          path: |
+            terminalx-search.png
+            terminalx-product.png
           if-no-files-found: ignore
